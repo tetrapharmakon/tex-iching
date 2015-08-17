@@ -1,0 +1,21 @@
+\documentclass{minimal}
+\usepackage[a0paper, landscape]{geometry}
+
+\usepackage{fontspec}
+\setmainfont{HanWangYanKai}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+%\usetikzlibrary{positioning}
+%\usepackage{tikzpagenodes}
+
+
+\begin{document}
+\begin{tikzpicture}[remember picture, overlay]
+\draw [purple]
+  (current page.south east) circle (20pt)
+  (current page.north east) circle (20pt)
+  (current page.north west) circle (20pt)
+  (current page.south west) circle (20pt);
+\end{tikzpicture}
+\end{document}
