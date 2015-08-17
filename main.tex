@@ -1,8 +1,10 @@
 \documentclass{minimal}
 \usepackage[a0paper, landscape]{geometry}
 
-\usepackage{fontspec}
-\setmainfont{HanWangYanKai}
+%\usepackage{fontspec}
+%\setmainfont{HanWangYanKai}
+
+\usepackage{xstring}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
@@ -12,6 +14,26 @@
 
 \begin{document}
 \begin{tikzpicture}[remember picture, overlay]
+\tikzset{pics/.cd,
+  monogram/.style args={#1}{code={
+    \def\yin {-- (-1,0)  (1,0) --}
+    \def\yang{--}
+    \draw [line width=1cm, purple] (-6,0) \csname#1\endcsname (6,0);
+  }},
+  hexagram/.style args={#1 sized #2 by #3}{code={
+    \begin{scope}[yshift=-7cm,transform canvas={xscale=#2/12cm,yscale=#2/11cm}]
+    \foreach \d [count=\n] in {#1}{
+      \IfStrEq{\d}{0}
+        {\pic [yshift=\n*2cm] {monogram=yin};}
+        {\pic [yshift=\n*2cm] {monogram=yang};}
+      }
+    \end{scope}
+}}
+}
+
+\pic at (0,0) {hexagram = {0,0,1,0,0,1} sized 10cm by 10cm};
+\draw (-5,-5) rectangle (5,5);
+\fill (0,0) circle (1cm);
 \draw [purple]
   (current page.south east) circle (20pt)
   (current page.north east) circle (20pt)
