@@ -1,16 +1,19 @@
 \documentclass{minimal}
-\usepackage[a0paper, landscape]{geometry}
+\usepackage[a4paper, landscape]{geometry}
 
-%\usepackage{fontspec}
-%\setmainfont{HanWangYanKai}
+\usepackage{fontspec}
+\setmainfont{HanWangYanKai}
 
 \usepackage{xstring}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
+\usetikzlibrary{shapes.multipart}
 %\usetikzlibrary{positioning}
 %\usepackage{tikzpagenodes}
 
+
+\def\tiny{\fontsize{5}{0}\selectfont}
 
 \begin{document}
 \begin{tikzpicture}[remember picture, overlay]
@@ -28,12 +31,39 @@
         {\pic [yshift=\n*2cm] {monogram=yang};}
       }
     \end{scope}
-}}
+  }},
+  fulle/.style args={#1}{code={
+    \draw[rounded corners=1cm] (0,0) rectangle (10,10);
+    \draw (5,0) -- (5,10);
+    \draw (5,5) -- (10,5);
+    \draw[yshift=-2.5cm,thin] (5,5) -- (10,5);
+    \node [ draw
+          , rectangle split
+          , rectangle split parts = 2
+          , rectangle split part align = {center, center}
+          ] at (7.5,7.5)
+      {\fontsize{10}{0}\selectfont The Nourishment%
+       \nodepart{two}\fontsize{100}{0}\selectfont 頤};
+    \fill[red] (7.5,7.5) circle (5pt);
+    \node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
+          , rectangle split
+          , rectangle split parts = 6
+          %, rectangle split part align = {center, center}
+          ] at (2.5,2.5)
+{The source of nourishment. Awareness of danger brings good fortune. It furthers one to cross the great water.
+\nodepart{two}Turning away from the path. To remain persevering brings good fortune. One should not cross the great water.
+\nodepart{three}Turning to the summit for provision of nourishment brings good fortune. Spying about with sharp eyes like a tiger with insatiable craving. No blame.
+\nodepart{four}Turning away from nourishment. Perseverance brings misfortune. Do not act thus for ten years. Nothing serves to further.
+\nodepart{five}Turning to the summit for nourishment, deviating from the path to seek nourishment from the hill. Continuing to do this brings misfortune.
+\nodepart{six}You let your magic tortoise go, and look at me with the corners of your mouth drooping. Misfortune.
+};
+  }}  
 }
 
-\pic at (0,0) {hexagram = {0,0,1,0,0,1} sized 10cm by 10cm};
-\draw (-5,-5) rectangle (5,5);
-\fill (0,0) circle (1cm);
+%\pic at (0,0) {hexagram = {0,0,1,0,0,1} sized 10cm by 10cm};
+%\draw (-5,-5) rectangle (5,5);
+\fill (0,-10) circle (1pt);
+\pic at (0,-10) {fulle=a};
 \draw [purple]
   (current page.south east) circle (20pt)
   (current page.north east) circle (20pt)
