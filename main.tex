@@ -11,7 +11,6 @@
 
 \usepackage{fontspec}
 %\setmainfont{HanWangYanKai}
-\def\toy#1{wirte #1}
 \usepackage{xstring}
 
 \usepackage{tikz}
@@ -31,6 +30,7 @@
 %\usetikzlibrary{positioning}
 %\usepackage{tikzpagenodes}
 
+%\include{lines}
 
 \def\tiny{\fontsize{5}{0}\selectfont}
 \def\HUGE{\fontsize{50}{0}\selectfont}
@@ -57,13 +57,26 @@
     %\draw (5,0) -- (5,10);
     %\draw (5,5) -- (10,5);
     %\draw[yshift=-2.5cm,thin] (5,5) -- (10,5);
-    \node [ draw
-          , rectangle split
-          , rectangle split parts = 2
-          , rectangle split part align = {center, center}
-          ] at (7.5,7.5)
-      {\fontsize{10}{0}\selectfont The Nourishment%
-       \nodepart{two}\fontsize{100}{0}\selectfont 頤};
+%    \node [ draw
+%          , rectangle split
+%          , rectangle split parts = 2
+%          , rectangle split part align = {center, center}
+%          ] at (7.5,7.5)
+%      {\fontsize{10}{0}\selectfont The Nourishment%
+%       \nodepart{two}\fontsize{100}{0}\selectfont 頤};
+%    \fill[red] (7.5,7.5) circle (5pt);
+%    \node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
+%          , rectangle split
+%          , rectangle split parts = 6
+%          %, rectangle split part align = {center, center}
+%          ] at (2.5,2.5)
+%{\chLine 1 of 1
+%\nodepart{two}\chLine 2 of 1
+%\nodepart{three}\chLine 3 of 1
+%\nodepart{four}\chLine 4 of 1
+%\nodepart{five}\chLine 5 of 1
+%\nodepart{six}\chLine 6 of 1
+%};
     %\fill[red] (7.5,7.5) circle (5pt);
     %\node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
     %      , rectangle split
