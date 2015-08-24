@@ -1,31 +1,48 @@
 \documentclass{minimal}
-\usepackage[a4paper, landscape]{geometry}
+\usepackage[a0paper,landscape,left=0mm,right=0mm,top=0mm,bottom=0mm]{geometry}
+
+\usepackage{calc}
+
+\newlength\bannerheight \setlength\bannerheight{\paperheight}
+\newlength\bannerwidth  \setlength\bannerwidth{10cm}
+\newlength\gridheight   \setlength\gridheight{\paperheight}
+\newlength\gridwidth    \setlength\gridwidth{\paperwidth-\bannerwidth}
+
 
 \usepackage{fontspec}
-\setmainfont{HanWangYanKai}
-
+%\setmainfont{HanWangYanKai}
 \usepackage{xstring}
 
 \usepackage{tikz}
+
+\pgfmathsetbasenumberlength{6}
+\newcommand\tobin[1]{\pgfmathbin{#1}\pgfmathresult}
+
+\def\intersperse#1#2<#3>{%
+  \if\relax#1\relax\else#1\if\relax#2\relax\else#3\fi\fi%
+  \if\relax#2\relax\else\intersperse#2<#3>\fi}
+
+\newcommand\strtoarr[1]{\expandafter\intersperse#1<,>}
+
+
 \usetikzlibrary{calc}
 \usetikzlibrary{shapes.multipart}
 %\usetikzlibrary{positioning}
 %\usepackage{tikzpagenodes}
 
-\include{lines}
+%\include{lines}
 
 \def\tiny{\fontsize{5}{0}\selectfont}
+\def\HUGE{\fontsize{50}{0}\selectfont}
 
-\begin{document}
+\begin{document}\topskip=0pt\noindent
 \begin{tikzpicture}[remember picture, overlay]
 \tikzset{pics/.cd,
-
   monogram/.style args={#1}{code={
     \def\yin {-- (-1,0)  (1,0) --}
     \def\yang{--}
     \draw [line width=1cm, purple] (-6,0) \csname#1\endcsname (6,0);
   }},
-
   hexagram/.style args={#1 sized #2 by #3}{code={
     \begin{scope}[yshift=-7cm,transform canvas={xscale=#2/12cm,yscale=#2/11cm}]
     \foreach \d [count=\n] in {#1}{
@@ -35,42 +52,61 @@
       }
     \end{scope}
   }},
-  fulle/.style args={#1}{code={
-    \draw[rounded corners=1cm] (0,0) rectangle (10,10);
-    \draw (5,0) -- (5,10);
-    \draw (5,5) -- (10,5);
-    \draw[yshift=-2.5cm,thin] (5,5) -- (10,5);
-    \node [ draw
-          , rectangle split
-          , rectangle split parts = 2
-          , rectangle split part align = {center, center}
-          ] at (7.5,7.5)
-      {\fontsize{10}{0}\selectfont The Nourishment%
-       \nodepart{two}\fontsize{100}{0}\selectfont 頤};
-    \fill[red] (7.5,7.5) circle (5pt);
-    \node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
-          , rectangle split
-          , rectangle split parts = 6
-          %, rectangle split part align = {center, center}
-          ] at (2.5,2.5)
-{\chLine 1 of 1
-\nodepart{two}\chLine 2 of 1
-\nodepart{three}\chLine 3 of 1
-\nodepart{four}\chLine 4 of 1
-\nodepart{five}\chLine 5 of 1
-\nodepart{six}\chLine 6 of 1
-};
+  hexamino/.style args={#1}{code={
+    \draw[rounded corners=1cm] (0,0) rectangle (\gridwidth/8,-\gridheight/8);
+    %\draw (5,0) -- (5,10);
+    %\draw (5,5) -- (10,5);
+    %\draw[yshift=-2.5cm,thin] (5,5) -- (10,5);
+%    \node [ draw
+%          , rectangle split
+%          , rectangle split parts = 2
+%          , rectangle split part align = {center, center}
+%          ] at (7.5,7.5)
+%      {\fontsize{10}{0}\selectfont The Nourishment%
+%       \nodepart{two}\fontsize{100}{0}\selectfont 頤};
+%    \fill[red] (7.5,7.5) circle (5pt);
+%    \node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
+%          , rectangle split
+%          , rectangle split parts = 6
+%          %, rectangle split part align = {center, center}
+%          ] at (2.5,2.5)
+%{\chLine 1 of 1
+%\nodepart{two}\chLine 2 of 1
+%\nodepart{three}\chLine 3 of 1
+%\nodepart{four}\chLine 4 of 1
+%\nodepart{five}\chLine 5 of 1
+%\nodepart{six}\chLine 6 of 1
+%};
+    %\fill[red] (7.5,7.5) circle (5pt);
+    %\node [ draw, text width = 5cm, inner sep=0.5cm, font=\tiny 
+    %      , rectangle split
+    %      , rectangle split parts = 6
+    %      %, rectangle split part align = {center, center}
+    %      ] at (2.5,2.5)
+    %      {A\nodepart{two}B\nodepart{three}C\nodepart{four}D\nodepart{five}E\nodepart{six}F};
+    \node [font=\bfseries\HUGE] at (1,-1) {#1};
   }}  
 }
 
 %\pic at (0,0) {hexagram = {0,0,1,0,0,1} sized 10cm by 10cm};
 %\draw (-5,-5) rectangle (5,5);
-\fill (0,-10) circle (1pt);
-\pic at (0,-10) {fulle=a};
+\fill (0,0) circle (5pt);
+%\pic at (0,-10) {hexamino=a};
 \draw [purple]
   (current page.south east) circle (20pt)
   (current page.north east) circle (20pt)
   (current page.north west) circle (20pt)
   (current page.south west) circle (20pt);
+
+
+\foreach [count=\n] \x in {0,...,63}{
+  \pgfmathbin{\x}
+  \edef\myArr{\strtoarr{\pgfmathresult}}
+  \pic at ({mod(\x,8)/8*\gridwidth},{-int(\x/8)/8*\gridheight}) {hexamino=\n};
+}
+
+
+
+
 \end{tikzpicture}
 \end{document}
